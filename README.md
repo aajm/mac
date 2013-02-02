@@ -13,5 +13,3 @@ limited internet access.
 ### Bloop?
 Herp de derp
 
-## License
-
