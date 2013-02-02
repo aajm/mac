@@ -1,0 +1,115 @@
+﻿<Window x:Class="mac.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:chartprimitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        Closing="OnClose" StateChanged="OnStateChanged" KeyDown="WindowKeyDown"
+        Title="MAC Address Changer" Width="520" Height="400" ResizeMode="CanMinimize">
+
+    <StackPanel Orientation="Vertical" Margin="5">
+        <GroupBox BorderBrush="LightGray">
+            <GroupBox.Header>Interface Details</GroupBox.Header>
+            <StackPanel Orientation="Horizontal">
+
+                <chart:Chart Name="chInfoTraffic" Height="100" Width="200" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" BorderBrush="White">
+                    <chart:Chart.PlotAreaStyle>
+                        <Style TargetType="Grid">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                    </chart:Chart.PlotAreaStyle>
+
+                    <chart:Chart.Axes>
+                        <chart:LinearAxis Orientation="X" ShowGridLines="False" Height="0" />
+                        <chart:LinearAxis Orientation="Y" ShowGridLines="False" Width="0" />
+                    </chart:Chart.Axes>
+                    <chart:Chart.Template>
+                        <ControlTemplate TargetType="chart:Chart">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                <Grid>
+                                    <chartprimitives:EdgePanel Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}">
+                                        <Grid Canvas.ZIndex="-1" Style="{TemplateBinding PlotAreaStyle}" />
+                                        <Border Canvas.ZIndex="10" BorderBrush="#FF919191" BorderThickness="0" />
+                                    </chartprimitives:EdgePanel>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </chart:Chart.Template>
+                    <chart:AreaSeries Name="Recv" Title="Recv" IndependentValuePath="Key" DependentValuePath="Value" 
+                                      ItemsSource="{Binding [0]}" IsSelectionEnabled="True">
+                        <chart:AreaSeries.DataPointStyle>
+                            <Style TargetType="chart:AreaDataPoint">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Setter Property="Width" Value="0" />
+                                <Setter Property="Background" Value="#133CAC" />
+                            </Style>
+                        </chart:AreaSeries.DataPointStyle>
+                        <chart:AreaSeries.IndependentAxis>
+                            <chart:DateTimeAxis Orientation="X" Height="0" />
+                        </chart:AreaSeries.IndependentAxis>
+                    </chart:AreaSeries>
+
+                    <chart:LineSeries Name="Sent" Title="Sent" IndependentValuePath="Key" DependentValuePath="Value" 
+                                      ItemsSource="{Binding [1]}" IsSelectionEnabled="True">
+                        <chart:LineSeries.DataPointStyle>
+                            <Style TargetType="chart:LineDataPoint">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Setter Property="Width" Value="0" />
+                                <Setter Property="Background" Value="#00C618" />
+                            </Style>
+                        </chart:LineSeries.DataPointStyle>
+                    </chart:LineSeries>
+                </chart:Chart>
+
+                <StackPanel Name="sInfo" Orientation="Vertical" Margin="5,0,0,0" Width="275" Height="90">
+                    <TextBlock Name="txInfoDetails" Text="initializing..." Margin="5,0,0,5" Height="69" />
+
+                    <Grid Background="#f0fff0" Name="gBar">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Name="gpBarMinutes" Grid.Row="0" HorizontalAlignment="Left" Width="0" Background="Khaki" />
+                        <StackPanel Name="gpBarMegabytes" Grid.Row="1" HorizontalAlignment="Left" Width="0" Background="LightBlue" />
+                        <TextBlock Name="txInfoProgress" Grid.Row="0" Grid.RowSpan="2" TextAlignment="Left" Margin="5,0,0,0">initializing...</TextBlock>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Height="178">
+            <GroupBox.Header>Login Console</GroupBox.Header>
+            <TextBlock Name="txLoginConsole" Margin="5" Text="{Binding Progress}" />
+        </GroupBox>
+        
+        <StackPanel Orientation="Horizontal">
+            <GroupBox BorderBrush="LightGray">
+                <GroupBox.Header>Manual Restart</GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="bManualReset" Click="BManualResetClick" Content="Restart" Width="100" HorizontalAlignment="Left" />
+                </StackPanel>     
+            </GroupBox>
+
+            <GroupBox BorderBrush="LightGray">
+                <GroupBox.Header>Automatic Restart</GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="chbAutoEnabled" IsChecked="False" Checked="ChbAutoEnabledChanged" Unchecked="ChbAutoEnabledChanged" Content="Enable" Margin="0,0,5,0" VerticalAlignment="Center" />
+                    <ComboBox Name="cobAutoInterface" Width="166" SelectionChanged="CobAutoInterfaceSelectionChanged" />
+
+                    <TextBox Name="tbAutoMegabytes" Margin="5,0,0,0" Width="30" Text="100"  MaxLength="4"
+                             VerticalAlignment="Center" TextAlignment="Right" UndoLimit="1" />
+                    <Label Content="MB" VerticalAlignment="Center" />
+
+                    <TextBox Name="tbAutoMinutes" Width="31" Text="0" MaxLength="4"
+                             VerticalAlignment="Center" TextAlignment="Right" UndoLimit="1" />
+                    <Label Content="Minutes" VerticalAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+
+        </StackPanel>
+
+    </StackPanel>
+</Window>
