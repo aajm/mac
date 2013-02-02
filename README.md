@@ -1,4 +1,4 @@
 mac
 ===
 
-automated MAC address changer
+Automated MAC address changer
