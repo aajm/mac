@@ -1,4 +1,4 @@
-mac-address-changer
-===================
+mac
+===
 
 automated MAC address changer
